@@ -1,0 +1,2818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberBit: A Programmed SuperHuman</title>
+<meta name="description" content="Science vs. Magic: The Battle for Earth Begins. CyberBit — A Programmed SuperHuman. Comics, 2D & 3D Games.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Cinzel:wght@400;500;600;700;900&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   RESET & ROOT
+   ═══════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cyan: #00F0FF;
+  --cyan-dim: #00a0aa;
+  --white: #FFFFFF;
+  --purple-deep: #3B1C58;
+  --magenta: #8A2BE2;
+  --magenta-dim: #5a1a9a;
+  --bg: #0B0C15;
+  --bg-lighter: #10111f;
+  --green: #39FF14;
+  --green-dim: #1a8a0a;
+  --font-cyber: 'Orbitron', sans-serif;
+  --font-magic: 'Cinzel', serif;
+  --font-body: 'Exo 2', sans-serif;
+  --glass-bg: rgba(11, 12, 21, 0.55);
+  --glass-border: rgba(0, 240, 255, 0.12);
+  --theme-primary: var(--cyan);
+  --theme-glow: rgba(0, 240, 255, 0.3);
+  --theme-secondary: var(--magenta);
+  --theme-glow-secondary: rgba(138, 43, 226, 0.3);
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--cyan) var(--bg);
+}
+
+html::-webkit-scrollbar { width: 6px; }
+html::-webkit-scrollbar-track { background: var(--bg); }
+html::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--white);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+body.theme-magic {
+  --theme-primary: var(--magenta);
+  --theme-glow: rgba(138, 43, 226, 0.3);
+  --theme-secondary: var(--cyan);
+  --theme-glow-secondary: rgba(0, 240, 255, 0.3);
+}
+
+/* ═══════════════════════════════════════════
+   SPLASH / CHOICE SCREEN
+   ═══════════════════════════════════════════ */
+#splash {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+#splash::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(0, 240, 255, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 50%, rgba(138, 43, 226, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 50% 30%, rgba(0, 240, 255, 0.04) 0%, transparent 40%);
+  animation: splashPulse 4s ease-in-out infinite alternate;
+}
+
+#splash::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 0%, transparent 70%, rgba(0, 240, 255, 0.02) 85%, transparent 100%);
+  animation: splashSweep 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes splashPulse {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes splashSweep {
+  0%, 100% { transform: translateY(0); opacity: 0; }
+  30% { opacity: 1; }
+  50% { transform: translateY(-30px); opacity: 0.5; }
+  70% { opacity: 0; }
+}
+
+.splash-rune {
+  position: absolute;
+  font-family: var(--font-magic);
+  color: rgba(138, 43, 226, 0.08);
+  font-size: clamp(2rem, 6vw, 5rem);
+  animation: runeFloat 8s ease-in-out infinite;
+  pointer-events: none;
+}
+.splash-rune:nth-child(1) { top: 10%; left: 8%; animation-delay: 0s; }
+.splash-rune:nth-child(2) { top: 20%; right: 12%; animation-delay: -2s; }
+.splash-rune:nth-child(3) { bottom: 15%; left: 15%; animation-delay: -4s; }
+.splash-rune:nth-child(4) { bottom: 25%; right: 8%; animation-delay: -6s; }
+
+@keyframes runeFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+  50% { transform: translateY(-20px) rotate(10deg); opacity: 0.8; }
+}
+
+.splash-title {
+  font-family: var(--font-cyber);
+  font-size: clamp(1.2rem, 3.5vw, 2.4rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 0.5em;
+  position: relative;
+  z-index: 1;
+}
+
+.splash-question {
+  font-family: var(--font-magic);
+  font-size: clamp(1.4rem, 4vw, 3rem);
+  text-align: center;
+  margin-bottom: 2.5em;
+  position: relative;
+  z-index: 1;
+  color: var(--white);
+  text-shadow: 0 0 30px rgba(255,255,255,0.15);
+  padding: 0 1rem;
+}
+
+.splash-choices {
+  display: flex;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+.splash-choice {
+  width: clamp(160px, 30vw, 260px);
+  height: clamp(200px, 35vw, 320px);
+  border: 2px solid;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2em;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+
+.splash-choice--heart {
+  border-color: rgba(0, 240, 255, 0.3);
+}
+
+.splash-choice--mind {
+  border-color: rgba(138, 43, 226, 0.3);
+}
+
+.splash-choice:hover {
+  transform: translateY(-8px) scale(1.03);
+}
+
+.splash-choice--heart:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.3), inset 0 0 40px rgba(0, 240, 255, 0.05);
+}
+
+.splash-choice--mind:hover {
+  border-color: var(--magenta);
+  box-shadow: 0 0 40px rgba(138, 43, 226, 0.3), inset 0 0 40px rgba(138, 43, 226, 0.05);
+}
+
+.splash-choice::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.splash-choice--heart::before {
+  background: radial-gradient(circle at center, rgba(0, 240, 255, 0.1), transparent 70%);
+}
+
+.splash-choice--mind::before {
+  background: radial-gradient(circle at center, rgba(138, 43, 226, 0.1), transparent 70%);
+}
+
+.splash-choice:hover::before { opacity: 1; }
+
+.splash-icon {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  position: relative;
+}
+
+.splash-choice--heart .splash-icon { color: var(--cyan); text-shadow: 0 0 20px rgba(0, 240, 255, 0.5); }
+.splash-choice--mind .splash-icon { color: var(--magenta); text-shadow: 0 0 20px rgba(138, 43, 226, 0.5); }
+
+.splash-label {
+  font-family: var(--font-cyber);
+  font-size: clamp(0.7rem, 1.8vw, 1rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.splash-choice--heart .splash-label { color: var(--cyan); }
+.splash-choice--mind .splash-label { color: var(--magenta); }
+
+.splash-sub {
+  font-family: var(--font-magic);
+  font-size: clamp(0.6rem, 1.4vw, 0.85rem);
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════
+   XP BAR (GAMIFICATION)
+   ═══════════════════════════════════════════ */
+#xp-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: 9998;
+  background: rgba(255,255,255,0.05);
+}
+
+#xp-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--green));
+  transition: width 0.3s ease;
+  box-shadow: 0 0 10px var(--cyan), 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+#xp-level {
+  position: fixed;
+  top: 8px;
+  right: 16px;
+  z-index: 9999;
+  font-family: var(--font-cyber);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--cyan);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+}
+
+#xp-level.visible { opacity: 1; }
+
+/* ═══════════════════════════════════════════
+   ACHIEVEMENTS
+   ═══════════════════════════════════════════ */
+#achievement-popup {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-120px);
+  z-index: 9999;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--green);
+  padding: 0.8em 2em;
+  font-family: var(--font-cyber);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--green);
+  text-transform: uppercase;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#achievement-popup.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════ */
+#nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9000;
+  background: rgba(11, 12, 21, 0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+  transform: translateY(-100%);
+  transition: transform 0.4s ease;
+  padding: 0 1rem;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(0, 240, 255, 0.05);
+}
+
+#nav.visible { transform: translateY(0); }
+
+.nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+.nav-logo {
+  font-family: var(--font-cyber);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--theme-primary);
+  text-shadow: 0 0 10px var(--theme-glow);
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.2em;
+  list-style: none;
+  overflow-x: auto;
+}
+
+.nav-links a {
+  display: block;
+  padding: 0.4em 0.7em;
+  font-family: var(--font-cyber);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--theme-primary);
+  text-shadow: 0 0 8px var(--theme-glow);
+}
+
+.nav-hamburger {
+  display: none;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: var(--theme-primary);
+  padding: 0.4em;
+  font-size: 1.2rem;
+  cursor: pointer;
+  clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+}
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    background: rgba(11, 12, 21, 0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0,240,255,0.1);
+    padding: 1em;
+    gap: 0;
+  }
+  .nav-links.open a { padding: 0.8em 1em; }
+  .nav-hamburger { display: block; }
+}
+
+/* ═══════════════════════════════════════════
+   CANVAS (PARTICLES)
+   ═══════════════════════════════════════════ */
+#particle-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════
+   SECTIONS — COMMON
+   ═══════════════════════════════════════════ */
+section {
+  position: relative;
+  z-index: 1;
+  padding: clamp(4rem, 10vw, 8rem) clamp(1rem, 4vw, 3rem);
+}
+
+.section-label {
+  font-family: var(--font-cyber);
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--theme-primary);
+  opacity: 0.6;
+  margin-bottom: 0.8em;
+}
+
+.section-title {
+  font-family: var(--font-cyber);
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  margin-bottom: 1em;
+  background: linear-gradient(135deg, var(--white) 30%, var(--theme-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  position: relative;
+  display: inline-block;
+}
+
+.section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.7s ease;
+  filter: blur(4px);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* ═══════════════════════════════════════════
+   GLASS CARD
+   ═══════════════════════════════════════════ */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+
+/* ═══════════════════════════════════════════
+   CTA BUTTONS
+   ═══════════════════════════════════════════ */
+.btn {
+  display: inline-block;
+  font-family: var(--font-cyber);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.9em 2.2em;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  position: relative;
+}
+
+.btn-cyber {
+  background: linear-gradient(135deg, var(--cyan), #00a0cc);
+  color: var(--bg);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+.btn-cyber::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+  transition: transform 0.5s ease;
+  transform: translateX(-100%);
+}
+.btn-cyber:hover::after {
+  transform: translateX(100%);
+}
+.btn-cyber:hover {
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.5), 0 0 80px rgba(0, 240, 255, 0.2);
+  transform: translateY(-3px);
+}
+
+.btn-magic {
+  background: linear-gradient(135deg, var(--magenta), #6a1ab5);
+  color: var(--white);
+  box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+.btn-magic::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%);
+  transition: transform 0.5s ease;
+  transform: translateX(-100%);
+}
+.btn-magic:hover::after {
+  transform: translateX(100%);
+}
+.btn-magic:hover {
+  box-shadow: 0 0 40px rgba(138, 43, 226, 0.5), 0 0 80px rgba(138, 43, 226, 0.2);
+  transform: translateY(-3px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--theme-primary);
+  border: 1px solid var(--theme-primary);
+  box-shadow: 0 0 10px var(--theme-glow);
+}
+.btn-outline:hover {
+  background: var(--theme-primary);
+  color: var(--bg);
+}
+
+/* ═══════════════════════════════════════════
+   HERO SECTION
+   ═══════════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 0%, var(--bg) 100%),
+    radial-gradient(ellipse at 50% 20%, rgba(0, 240, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 60%, rgba(138, 43, 226, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 60%, rgba(0, 240, 255, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  animation: heroAtmosphere 6s ease-in-out infinite alternate;
+}
+
+@keyframes heroAtmosphere {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* Cyberpunk grid floor */
+#hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -10%;
+  width: 120%;
+  height: 40%;
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 240, 255, 0.04) 0px, rgba(0, 240, 255, 0.04) 1px, transparent 1px, transparent 60px),
+    repeating-linear-gradient(0deg, rgba(0, 240, 255, 0.04) 0px, rgba(0, 240, 255, 0.04) 1px, transparent 1px, transparent 60px);
+  transform: perspective(500px) rotateX(60deg);
+  transform-origin: center bottom;
+  pointer-events: none;
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+  animation: gridPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes gridPulse {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Storm overlay for hero */
+.hero-storm {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero-storm::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(0, 240, 255, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(138, 43, 226, 0.03) 0%, transparent 40%);
+  animation: stormRotate 20s linear infinite;
+}
+
+@keyframes stormRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.hero-layout {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  max-width: 1200px;
+  padding: 2rem 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+  text-align: left;
+}
+
+.hero-cover {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.hero-cover-img {
+  width: clamp(220px, 30vw, 380px);
+  border-radius: 8px;
+  border: 2px solid rgba(0, 240, 255, 0.2);
+  box-shadow:
+    0 0 40px rgba(0, 240, 255, 0.15),
+    0 0 80px rgba(138, 43, 226, 0.1),
+    0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: coverFloat 5s ease-in-out infinite, coverGlow 3s ease-in-out infinite alternate;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.hero-cover-img:hover {
+  transform: scale(1.03) translateY(-4px);
+  box-shadow:
+    0 0 60px rgba(0, 240, 255, 0.25),
+    0 0 120px rgba(138, 43, 226, 0.15),
+    0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes coverFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes coverGlow {
+  0% {
+    border-color: rgba(0, 240, 255, 0.2);
+    box-shadow:
+      0 0 40px rgba(0, 240, 255, 0.15),
+      0 0 80px rgba(138, 43, 226, 0.1),
+      0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    border-color: rgba(138, 43, 226, 0.3);
+    box-shadow:
+      0 0 50px rgba(138, 43, 226, 0.2),
+      0 0 100px rgba(0, 240, 255, 0.1),
+      0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Electric arcs around the cover image */
+.hero-cover::before,
+.hero-cover::after {
+  content: '';
+  position: absolute;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.hero-cover::before {
+  inset: -6px;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.3), transparent 40%, transparent 60%, rgba(138, 43, 226, 0.3)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: arcRotate 4s linear infinite;
+}
+
+.hero-cover::after {
+  inset: -12px;
+  border: 1px solid transparent;
+  background: linear-gradient(315deg, rgba(0, 240, 255, 0.15), transparent 30%, transparent 70%, rgba(138, 43, 226, 0.15)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: arcRotate 6s linear infinite reverse;
+}
+
+@keyframes arcRotate {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+@media (max-width: 900px) {
+  .hero-layout { flex-direction: column-reverse; text-align: center; }
+  .hero-content { text-align: center; max-width: 600px; }
+  .hero-btns { justify-content: center; }
+}
+
+.hero-brand {
+  font-family: var(--font-cyber);
+  font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 1.5em;
+}
+
+.hero-title {
+  font-family: var(--font-cyber);
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15em;
+}
+
+.hero-title .cyber { color: var(--cyan); text-shadow: 0 0 30px rgba(0, 240, 255, 0.4), 0 0 60px rgba(0, 240, 255, 0.15); }
+.hero-title .bit { color: var(--magenta); text-shadow: 0 0 30px rgba(138, 43, 226, 0.4), 0 0 60px rgba(138, 43, 226, 0.15); }
+
+.hero-subtitle {
+  font-family: var(--font-magic);
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 0.3em;
+  font-style: italic;
+}
+
+.hero-storm-tag {
+  font-family: var(--font-cyber);
+  font-size: clamp(0.65rem, 1.2vw, 0.85rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 1em;
+  opacity: 0.7;
+  animation: tagPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes tagPulse {
+  0% { opacity: 0.5; text-shadow: 0 0 5px rgba(0, 240, 255, 0.2); }
+  100% { opacity: 0.9; text-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
+}
+
+.hero-tagline {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 2.5em;
+  max-width: 500px;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .hero-tagline { margin-left: auto; margin-right: auto; }
+}
+
+.hero-btns {
+  display: flex;
+  gap: 1.2em;
+  flex-wrap: wrap;
+}
+
+/* Lightning bolt decoration */
+.lightning {
+  position: absolute;
+  width: 3px;
+  height: 200px;
+  background: linear-gradient(to bottom, transparent, var(--cyan), rgba(0, 240, 255, 0.8), transparent);
+  opacity: 0;
+  animation: lightningFlash 4s ease-in-out infinite;
+  pointer-events: none;
+  filter: blur(0.5px);
+  z-index: 1;
+}
+
+.lightning::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.15), transparent);
+  filter: blur(8px);
+}
+
+.lightning:nth-child(1) { left: 10%; top: 5%; animation-delay: 0s; transform: rotate(12deg); height: 250px; }
+.lightning:nth-child(2) { right: 12%; top: 3%; animation-delay: 1.2s; transform: rotate(-8deg); height: 200px; }
+.lightning:nth-child(3) { left: 35%; top: 0; animation-delay: 2.5s; transform: rotate(5deg); height: 220px; }
+.lightning:nth-child(4) { right: 30%; top: 8%; animation-delay: 0.6s; transform: rotate(-15deg); height: 180px; }
+.lightning:nth-child(5) { left: 55%; top: 2%; animation-delay: 3.2s; transform: rotate(18deg); height: 160px; }
+
+@keyframes lightningFlash {
+  0%, 88%, 100% { opacity: 0; }
+  89% { opacity: 0.9; }
+  90% { opacity: 0.1; }
+  91% { opacity: 1; }
+  92% { opacity: 0.2; }
+  93% { opacity: 0.85; }
+  95% { opacity: 0; }
+}
+
+/* Electric discharge sparks */
+.electric-sparks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan), 0 0 16px rgba(0, 240, 255, 0.5);
+  opacity: 0;
+  animation: sparkDrift 6s ease-in-out infinite;
+}
+
+.spark:nth-child(1) { left: 20%; top: 30%; animation-delay: 0s; animation-duration: 5s; }
+.spark:nth-child(2) { left: 75%; top: 20%; animation-delay: 1s; animation-duration: 7s; }
+.spark:nth-child(3) { left: 45%; top: 60%; animation-delay: 2s; animation-duration: 4s; }
+.spark:nth-child(4) { left: 60%; top: 45%; animation-delay: 3s; animation-duration: 6s; background: var(--magenta); box-shadow: 0 0 8px var(--magenta), 0 0 16px rgba(138, 43, 226, 0.5); }
+.spark:nth-child(5) { left: 30%; top: 70%; animation-delay: 0.5s; animation-duration: 5.5s; background: var(--magenta); box-shadow: 0 0 8px var(--magenta), 0 0 16px rgba(138, 43, 226, 0.5); }
+.spark:nth-child(6) { left: 85%; top: 55%; animation-delay: 2.5s; animation-duration: 4.5s; }
+
+@keyframes sparkDrift {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  10% { opacity: 1; transform: translate(5px, -10px) scale(1); }
+  20% { opacity: 0.3; transform: translate(-3px, -20px) scale(0.7); }
+  30% { opacity: 0.9; transform: translate(8px, -25px) scale(1.2); }
+  40% { opacity: 0; transform: translate(-5px, -40px) scale(0.3); }
+  100% { opacity: 0; transform: translate(0, -60px) scale(0); }
+}
+
+/* Horizontal electric arc */
+.electric-arc {
+  position: absolute;
+  bottom: 20%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  animation: arcFlash 8s ease-in-out infinite;
+}
+
+.electric-arc::before {
+  content: '';
+  position: absolute;
+  inset: -8px 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.05) 20%, rgba(0, 240, 255, 0.15) 50%, rgba(138, 43, 226, 0.05) 80%, transparent 100%);
+  filter: blur(4px);
+}
+
+@keyframes arcFlash {
+  0%, 85%, 100% { opacity: 0; }
+  87%, 92% { opacity: 1; }
+  89% { opacity: 0.3; }
+}
+
+/* ═══════════════════════════════════════════
+   LORE SECTION
+   ═══════════════════════════════════════════ */
+#lore {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-lighter) 50%, var(--bg) 100%);
+}
+
+.lore-intro {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  color: rgba(255,255,255,0.65);
+  max-width: 700px;
+  margin: 0 auto 3em;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.lore-intro em {
+  color: var(--theme-primary);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto 4em;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--magenta), var(--cyan));
+  transform: translateX(-50%);
+}
+
+@media (max-width: 700px) {
+  .timeline::before { left: 20px; }
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 3em;
+  position: relative;
+}
+
+.timeline-item:nth-child(odd) { flex-direction: row-reverse; }
+
+@media (max-width: 700px) {
+  .timeline-item,
+  .timeline-item:nth-child(odd) {
+    flex-direction: row;
+    padding-left: 50px;
+  }
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: var(--bg);
+  z-index: 2;
+}
+
+@media (max-width: 700px) {
+  .timeline-dot { left: 20px; }
+}
+
+.timeline-item:nth-child(1) .timeline-dot,
+.timeline-item:nth-child(2) .timeline-dot { border-color: var(--magenta); box-shadow: 0 0 10px rgba(138, 43, 226, 0.5); }
+.timeline-item:nth-child(3) .timeline-dot,
+.timeline-item:nth-child(4) .timeline-dot { border-color: var(--cyan); box-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
+
+.timeline-card {
+  width: calc(50% - 40px);
+  padding: 1.5em;
+}
+
+@media (max-width: 700px) {
+  .timeline-card { width: 100%; }
+}
+
+.timeline-year {
+  font-family: var(--font-cyber);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.5em;
+}
+
+.timeline-item:nth-child(1) .timeline-year,
+.timeline-item:nth-child(2) .timeline-year { color: var(--magenta); }
+.timeline-item:nth-child(3) .timeline-year,
+.timeline-item:nth-child(4) .timeline-year { color: var(--cyan); }
+
+.timeline-text {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+}
+
+/* Heart vs Mind Toggle */
+.duality-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5em;
+  margin: 3em auto;
+  flex-wrap: wrap;
+}
+
+.duality-label {
+  font-family: var(--font-cyber);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.duality-label--heart { color: var(--cyan); }
+.duality-label--mind { color: var(--magenta); }
+
+.toggle-track {
+  width: 80px;
+  height: 36px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.toggle-track:hover { border-color: rgba(255,255,255,0.3); }
+
+.toggle-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  background: var(--cyan);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toggle-track.active .toggle-thumb {
+  left: 48px;
+  background: var(--magenta);
+  box-shadow: 0 0 12px rgba(138, 43, 226, 0.5);
+}
+
+.duality-text {
+  text-align: center;
+  max-width: 600px;
+  margin: 2em auto 0;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.8;
+  transition: opacity 0.4s ease;
+}
+
+.duality-text em { font-style: normal; font-weight: 600; }
+.duality-text.heart-mode em { color: var(--cyan); }
+.duality-text.mind-mode em { color: var(--magenta); }
+
+/* ═══════════════════════════════════════════
+   CHARACTERS SECTION
+   ═══════════════════════════════════════════ */
+#characters { overflow: hidden; }
+
+.char-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2em;
+  margin-bottom: 3em;
+}
+
+@media (max-width: 800px) {
+  .char-grid { grid-template-columns: 1fr; }
+}
+
+.char-card {
+  padding: 2em;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.char-card:hover {
+  transform: translateY(-4px);
+}
+
+.char-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px);
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+.char-card--xin {
+  border-color: rgba(0, 240, 255, 0.15);
+}
+.char-card--xin:hover {
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.15), inset 0 0 30px rgba(0, 240, 255, 0.03);
+  border-color: rgba(0, 240, 255, 0.3);
+}
+
+.char-card--tzin {
+  border-color: rgba(138, 43, 226, 0.15);
+}
+.char-card--tzin:hover {
+  box-shadow: 0 0 30px rgba(138, 43, 226, 0.15), inset 0 0 30px rgba(138, 43, 226, 0.03);
+  border-color: rgba(138, 43, 226, 0.3);
+}
+
+.char-header {
+  display: flex;
+  align-items: center;
+  gap: 1.2em;
+  margin-bottom: 1.5em;
+}
+
+.char-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.char-card--xin .char-avatar {
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.15), transparent);
+  border: 2px solid rgba(0, 240, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+}
+
+.char-card--tzin .char-avatar {
+  background: radial-gradient(circle, rgba(138, 43, 226, 0.15), transparent);
+  border: 2px solid rgba(138, 43, 226, 0.3);
+  box-shadow: 0 0 20px rgba(138, 43, 226, 0.15);
+}
+
+.char-name {
+  font-family: var(--font-cyber);
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+}
+
+.char-card--xin .char-name { color: var(--cyan); }
+.char-card--tzin .char-name { color: var(--magenta); }
+
+.char-alias {
+  font-family: var(--font-magic);
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
+
+.char-bio {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+  margin-bottom: 1.5em;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  margin-bottom: 0.7em;
+}
+
+.stat-label {
+  font-family: var(--font-cyber);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  width: 80px;
+  flex-shrink: 0;
+  color: rgba(255,255,255,0.5);
+}
+
+.stat-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.05);
+  overflow: hidden;
+  clip-path: polygon(3px 0, 100% 0, 100% calc(100% - 3px), calc(100% - 3px) 100%, 0 100%, 0 3px);
+}
+
+.stat-fill {
+  height: 100%;
+  width: 0;
+  transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.char-card--xin .stat-fill {
+  background: linear-gradient(90deg, var(--cyan), rgba(0, 240, 255, 0.4));
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+}
+
+.char-card--tzin .stat-fill {
+  background: linear-gradient(90deg, var(--magenta), rgba(138, 43, 226, 0.4));
+  box-shadow: 0 0 8px rgba(138, 43, 226, 0.5);
+}
+
+.stat-val {
+  font-family: var(--font-cyber);
+  font-size: 0.6rem;
+  width: 30px;
+  text-align: right;
+  color: rgba(255,255,255,0.6);
+}
+
+/* Side Characters */
+.side-chars {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1em;
+}
+
+.side-char {
+  padding: 1.2em;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.side-char:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px var(--theme-glow);
+}
+
+.side-char-icon {
+  font-size: 1.6rem;
+  margin-bottom: 0.5em;
+}
+
+.side-char-name {
+  font-family: var(--font-cyber);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--theme-primary);
+  margin-bottom: 0.3em;
+}
+
+.side-char-role {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ═══════════════════════════════════════════
+   STORY SECTION
+   ═══════════════════════════════════════════ */
+#story {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-lighter) 50%, var(--bg) 100%);
+}
+
+.story-issues {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2em;
+}
+
+@media (max-width: 800px) {
+  .story-issues { grid-template-columns: 1fr; }
+}
+
+.issue-card {
+  padding: 2em;
+  position: relative;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.issue-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 25px var(--theme-glow), 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.issue-number {
+  font-family: var(--font-cyber);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--theme-primary);
+  margin-bottom: 0.8em;
+}
+
+.issue-title {
+  font-family: var(--font-magic);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--white);
+  margin-bottom: 1em;
+}
+
+.issue-text {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.8;
+  margin-bottom: 1.5em;
+  max-height: 300px;
+  overflow: hidden;
+  position: relative;
+}
+
+.issue-text::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(transparent, var(--glass-bg));
+  pointer-events: none;
+}
+
+.issue-cta { margin-top: 1em; }
+
+/* ═══════════════════════════════════════════
+   GAMES SECTION
+   ═══════════════════════════════════════════ */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5em;
+}
+
+@media (max-width: 900px) {
+  .games-grid { grid-template-columns: 1fr; }
+}
+
+.game-card {
+  padding: 2em;
+  text-align: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.game-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 30px var(--theme-glow), 0 10px 40px rgba(0,0,0,0.3);
+  border-color: var(--theme-primary);
+}
+
+.game-icon {
+  font-size: 3rem;
+  margin-bottom: 0.8em;
+  display: block;
+}
+
+.game-name {
+  font-family: var(--font-cyber);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  margin-bottom: 0.5em;
+}
+
+.game-desc {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+  margin-bottom: 1.5em;
+}
+
+.progress-label {
+  font-family: var(--font-cyber);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 0.5em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.05);
+  margin-bottom: 1.5em;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan), var(--magenta));
+  box-shadow: 0 0 8px var(--theme-glow);
+  width: 0;
+  transition: width 2s ease;
+}
+
+/* ═══════════════════════════════════════════
+   MUSIC SECTION
+   ═══════════════════════════════════════════ */
+#music {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-lighter) 50%, var(--bg) 100%);
+}
+
+.music-player {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2em;
+}
+
+.track-list { list-style: none; }
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: 1em 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.3s ease;
+  cursor: pointer;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.track:hover {
+  background: rgba(0, 240, 255, 0.03);
+}
+
+.track-num {
+  font-family: var(--font-cyber);
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.25);
+  width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.track-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  color: var(--cyan);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+  transition: all 0.3s ease;
+}
+
+.track:hover .track-icon {
+  background: rgba(0, 240, 255, 0.1);
+  border-color: var(--cyan);
+}
+
+.track-info { flex: 1; min-width: 0; }
+
+.track-name {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-artist {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.35);
+}
+
+.track-wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.track-wave span {
+  width: 3px;
+  background: var(--cyan);
+  border-radius: 1px;
+  opacity: 0.3;
+  transition: height 0.3s ease;
+}
+
+.track:hover .track-wave span { animation: wave 0.6s ease-in-out infinite alternate; opacity: 0.7; }
+.track:hover .track-wave span:nth-child(1) { animation-delay: 0s; }
+.track:hover .track-wave span:nth-child(2) { animation-delay: 0.1s; }
+.track:hover .track-wave span:nth-child(3) { animation-delay: 0.2s; }
+.track:hover .track-wave span:nth-child(4) { animation-delay: 0.3s; }
+.track:hover .track-wave span:nth-child(5) { animation-delay: 0.15s; }
+
+@keyframes wave {
+  0% { height: 4px; }
+  100% { height: 18px; }
+}
+
+/* ═══════════════════════════════════════════
+   GALLERY SECTION
+   ═══════════════════════════════════════════ */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1em;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+  border: 1px solid rgba(0, 240, 255, 0.08);
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 30px var(--theme-glow);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img { transform: scale(1.1); }
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 50%, rgba(11, 12, 21, 0.8));
+  display: flex;
+  align-items: flex-end;
+  padding: 1em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+
+.gallery-item--featured {
+  grid-row: span 2;
+  aspect-ratio: auto;
+  border-color: rgba(0, 240, 255, 0.15);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.08);
+}
+
+.gallery-item--featured:hover {
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.2), 0 0 60px rgba(138, 43, 226, 0.1);
+}
+
+.gallery-overlay span {
+  font-family: var(--font-cyber);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+/* Lightbox */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+#lightbox.active { opacity: 1; visibility: visible; }
+
+#lightbox img {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  box-shadow: 0 0 60px rgba(0, 240, 255, 0.1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-family: var(--font-cyber);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--cyan);
+  background: none;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  padding: 0.5em 1em;
+  cursor: pointer;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+
+/* ═══════════════════════════════════════════
+   TEAM SECTION
+   ═══════════════════════════════════════════ */
+#team {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-lighter) 50%, var(--bg) 100%);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.2em;
+}
+
+.team-card {
+  padding: 1.5em;
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--theme-primary);
+}
+
+.team-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  margin: 0 auto 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.08), transparent);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+}
+
+.team-name {
+  font-family: var(--font-cyber);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  margin-bottom: 0.3em;
+}
+
+.team-role {
+  font-size: 0.75rem;
+  color: var(--theme-primary);
+  opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════
+   CONNECT / FOOTER
+   ═══════════════════════════════════════════ */
+#connect {
+  border-top: 1px solid rgba(0, 240, 255, 0.06);
+}
+
+.connect-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.connect-title {
+  font-family: var(--font-magic);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  margin-bottom: 0.5em;
+  color: var(--white);
+}
+
+.connect-sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 2em;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0.8em;
+  max-width: 480px;
+  margin: 0 auto 3em;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.newsletter-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.8em 1.2em;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  color: var(--white);
+  outline: none;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  transition: border-color 0.3s ease;
+}
+
+.newsletter-input:focus { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0, 240, 255, 0.15); }
+.newsletter-input::placeholder { color: rgba(255,255,255,0.25); }
+
+.social-links {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+  margin-bottom: 2em;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  font-size: 1rem;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  border-color: var(--theme-primary);
+  color: var(--theme-primary);
+  box-shadow: 0 0 15px var(--theme-glow);
+}
+
+.footer-email {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 1em;
+}
+
+.footer-email a {
+  color: var(--theme-primary);
+  text-decoration: none;
+}
+
+.footer-copy {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.15);
+  padding-top: 2em;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+/* ═══════════════════════════════════════════
+   FLOATING RUNES
+   ═══════════════════════════════════════════ */
+.floating-runes {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.rune {
+  position: absolute;
+  font-family: var(--font-magic);
+  opacity: 0.04;
+  animation: runeFloat 12s ease-in-out infinite;
+  color: var(--magenta);
+  font-size: clamp(1.5rem, 4vw, 3rem);
+}
+
+.rune:nth-child(1) { left: 5%; top: 15%; animation-duration: 14s; }
+.rune:nth-child(2) { right: 8%; top: 25%; animation-duration: 11s; animation-delay: -3s; }
+.rune:nth-child(3) { left: 12%; top: 55%; animation-duration: 16s; animation-delay: -6s; }
+.rune:nth-child(4) { right: 15%; top: 65%; animation-duration: 13s; animation-delay: -2s; }
+.rune:nth-child(5) { left: 50%; top: 80%; animation-duration: 15s; animation-delay: -8s; }
+.rune:nth-child(6) { right: 30%; top: 40%; animation-duration: 10s; animation-delay: -5s; }
+
+/* ═══════════════════════════════════════════
+   GLITCH TEXT
+   ═══════════════════════════════════════════ */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.glitch::before {
+  color: var(--cyan);
+  animation: glitch1 3s ease-in-out infinite;
+  clip-path: inset(0 0 80% 0);
+}
+
+.glitch::after {
+  color: var(--magenta);
+  animation: glitch2 3s ease-in-out infinite;
+  clip-path: inset(80% 0 0 0);
+}
+
+@keyframes glitch1 {
+  0%, 89%, 100% { transform: translate(0); opacity: 0.8; }
+  90% { transform: translate(-4px, 2px); opacity: 1; }
+  92% { transform: translate(3px, -1px); opacity: 0.6; }
+  94% { transform: translate(-2px, 3px); opacity: 1; }
+  96% { transform: translate(5px, -2px); opacity: 0.7; }
+}
+
+@keyframes glitch2 {
+  0%, 91%, 100% { transform: translate(0); opacity: 0.8; }
+  92% { transform: translate(4px, -2px); opacity: 1; }
+  94% { transform: translate(-3px, 1px); opacity: 0.6; }
+  96% { transform: translate(2px, 3px); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════ */
+.text-cyan { color: var(--cyan); }
+.text-magenta { color: var(--magenta); }
+.text-green { color: var(--green); }
+.mb-1 { margin-bottom: 0.5em; }
+.mb-2 { margin-bottom: 1em; }
+.mb-3 { margin-bottom: 2em; }
+
+/* Separator line */
+.sep {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--magenta));
+  margin: 0 auto 2em;
+  position: relative;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.3), 0 0 24px rgba(138, 43, 226, 0.15);
+  animation: sepPulse 3s ease-in-out infinite alternate;
+}
+
+.sep::before,
+.sep::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.sep::before {
+  left: -3px;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+.sep::after {
+  right: -3px;
+  background: var(--magenta);
+  box-shadow: 0 0 8px var(--magenta);
+}
+
+@keyframes sepPulse {
+  0% { width: 60px; box-shadow: 0 0 8px rgba(0, 240, 255, 0.2), 0 0 16px rgba(138, 43, 226, 0.1); }
+  100% { width: 100px; box-shadow: 0 0 16px rgba(0, 240, 255, 0.4), 0 0 32px rgba(138, 43, 226, 0.2); }
+}
+
+/* ═══════════════════════════════════════════
+   VS BADGE
+   ═══════════════════════════════════════════ */
+.vs-badge {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  font-family: var(--font-cyber);
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--white);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  border: 2px solid var(--green);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+}
+
+@media (min-width: 801px) {
+  .char-grid { position: relative; }
+  .vs-badge { display: flex; }
+}
+</style>
+</head>
+<body>
+
+<!-- FLOATING RUNES -->
+<div class="floating-runes">
+  <div class="rune">&#9733;</div>
+  <div class="rune">&#10038;</div>
+  <div class="rune">&#10040;</div>
+  <div class="rune">&#9734;</div>
+  <div class="rune">&#10039;</div>
+  <div class="rune">&#10037;</div>
+</div>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- SPLASH SCREEN -->
+<div id="splash">
+  <div class="splash-rune">&#10038;</div>
+  <div class="splash-rune">&#9733;</div>
+  <div class="splash-rune">&#10040;</div>
+  <div class="splash-rune">&#10039;</div>
+  <p class="splash-title">CyberBit</p>
+  <h1 class="splash-question">What guides you?<br>The Heart &mdash; or The Mind?</h1>
+  <div class="splash-choices">
+    <div class="splash-choice splash-choice--heart glass" onclick="choosePath('heart')">
+      <div class="splash-icon">&#9889;</div>
+      <div class="splash-label">The Heart</div>
+      <div class="splash-sub">Xin &middot; Science &middot; Pure</div>
+    </div>
+    <div class="splash-choice splash-choice--mind glass" onclick="choosePath('mind')">
+      <div class="splash-icon">&#9760;</div>
+      <div class="splash-label">The Mind</div>
+      <div class="splash-sub">Tzin &middot; Magic &middot; Calculated</div>
+    </div>
+  </div>
+</div>
+
+<!-- XP BAR -->
+<div id="xp-bar"><div id="xp-fill"></div></div>
+<div id="xp-level">LVL 1 &middot; 0 XP</div>
+
+<!-- ACHIEVEMENT POPUP -->
+<div id="achievement-popup">&#9733; ACHIEVEMENT UNLOCKED</div>
+
+<!-- NAVIGATION -->
+<nav id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">CYBER<span class="text-magenta">BIT</span></div>
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#lore">Lore</a></li>
+      <li><a href="#characters">Characters</a></li>
+      <li><a href="#story">Story</a></li>
+      <li><a href="#games">Games</a></li>
+      <li><a href="#music">Music</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#connect">Connect</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close">CLOSE [ESC]</button>
+  <img id="lightbox-img" src="" alt="Gallery image">
+</div>
+
+<!-- ═══════════════════════════════════════════
+     HERO SECTION
+     ═══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-storm"></div>
+  <div class="lightning"></div>
+  <div class="lightning"></div>
+  <div class="lightning"></div>
+  <div class="lightning"></div>
+  <div class="lightning"></div>
+  <div class="electric-sparks">
+    <div class="spark"></div>
+    <div class="spark"></div>
+    <div class="spark"></div>
+    <div class="spark"></div>
+    <div class="spark"></div>
+    <div class="spark"></div>
+  </div>
+  <div class="electric-arc"></div>
+  <div class="hero-layout">
+    <div class="hero-content">
+      <p class="hero-brand reveal">A Programmed SuperHuman</p>
+      <h2 class="hero-title reveal">
+        <span class="glitch cyber" data-text="Cyber">Cyber</span><span class="glitch bit" data-text="Bit">Bit</span>
+      </h2>
+      <p class="hero-subtitle reveal">Heart of the Storm</p>
+      <p class="hero-storm-tag reveal">Science vs. Magic</p>
+      <p class="hero-tagline reveal">A battle of superhero from the 21st century against evil powers from the 15th century. A battle between Pure Heart and Evil Mind. A battle to save the Earth.</p>
+      <div class="hero-btns reveal">
+        <a href="#story" class="btn btn-cyber">Enter the Comic</a>
+        <a href="#games" class="btn btn-magic">Play the Game</a>
+      </div>
+    </div>
+    <div class="hero-cover reveal">
+      <img class="hero-cover-img" src="cyberbit.png" alt="CyberBit: Heart of the Storm — Science vs. Magic">
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     LORE SECTION
+     ═══════════════════════════════════════════ -->
+<section id="lore">
+  <div class="section-inner">
+    <p class="section-label reveal">The Origin</p>
+    <h2 class="section-title reveal">The Lore of CyberBit</h2>
+    <div class="sep reveal"></div>
+    <p class="lore-intro reveal">
+      The battle between <em>Good</em> and <em>Bad</em> never stops. It is continued from past centuries till now.
+      Evil powers come in different forms to rule over the earth. To crush their evil motives, good souls always come forward.
+      But this time, it will not be easy. The evil powers are back with their <em>evil intention</em> in this 21st century.
+    </p>
+
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card glass">
+          <p class="timeline-year">15th Century &mdash; The Dark Origin</p>
+          <p class="timeline-text">A great wizard of evil mind rises to power. His dark arts transcend centuries, his soul escaping his mortal body. His body now rests on the island of Zinto, which both exudes and is filled with magic.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card glass">
+          <p class="timeline-year">The Emerald Blood War</p>
+          <p class="timeline-text">So titled because of the greenish hue of a printed circuit board versus what is essentially the most basic symbol of life &mdash; blood. Though the conflicting interpretations of the title vary, war is war.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card glass">
+          <p class="timeline-year">Year 2100 &mdash; The Augmentation Era</p>
+          <p class="timeline-text">Companies reach the peak of a human modification revolution. People with enough currency could buy augmentations, additions, improvements. But greed divides them, and nations begin to collapse.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card glass">
+          <p class="timeline-year">21st Century &mdash; CyberBit Rises</p>
+          <p class="timeline-text">Xin from Faspra City is ready to fight against his archfoe Tzin. With special electro-magnetic powers (cyberware), CyberBit battles against the crime and evil creatures to save the earth.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="duality-toggle reveal">
+      <span class="duality-label duality-label--heart">&#9829; Heart (Xin)</span>
+      <div class="toggle-track" id="duality-toggle" onclick="toggleDuality()">
+        <div class="toggle-thumb"></div>
+      </div>
+      <span class="duality-label duality-label--mind">Mind (Tzin) &#9760;</span>
+    </div>
+
+    <div class="duality-text heart-mode reveal" id="duality-text">
+      <em>Xin</em> means Heart. In our daily life, we face hard situations where we must listen to our heart to take decisions. Heart is considered as <em>pure</em> &mdash; and so our protagonist is named Xin. He represents the courage of pure decisions, the strength of compassion, the power of science wielded with a good soul.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CHARACTERS SECTION
+     ═══════════════════════════════════════════ -->
+<section id="characters">
+  <div class="section-inner">
+    <p class="section-label reveal">The Rosters</p>
+    <h2 class="section-title reveal">Characters</h2>
+    <div class="sep reveal"></div>
+
+    <div class="char-grid reveal">
+      <div class="vs-badge">VS</div>
+
+      <!-- XIN -->
+      <div class="char-card char-card--xin glass">
+        <div class="char-header">
+          <div class="char-avatar">&#9889;</div>
+          <div>
+            <h3 class="char-name">XiN</h3>
+            <p class="char-alias">a.k.a. CyberBit &middot; Team Science</p>
+          </div>
+        </div>
+        <p class="char-bio">Xin, whose father is Lester and mother is Lynne, is the only child of a happy family living near a crystal clear river in a forest of serenity. Fascinated by all things computer, well versed in both hardware and software. He wields special electro-magnetic powers &mdash; cyberware &mdash; to battle evil.</p>
+        <div class="stat-row"><span class="stat-label">Strength</span><div class="stat-bar"><div class="stat-fill" data-width="78"></div></div><span class="stat-val">78</span></div>
+        <div class="stat-row"><span class="stat-label">Speed</span><div class="stat-bar"><div class="stat-fill" data-width="85"></div></div><span class="stat-val">85</span></div>
+        <div class="stat-row"><span class="stat-label">Voltage</span><div class="stat-bar"><div class="stat-fill" data-width="95"></div></div><span class="stat-val">95</span></div>
+        <div class="stat-row"><span class="stat-label">Tech</span><div class="stat-bar"><div class="stat-fill" data-width="92"></div></div><span class="stat-val">92</span></div>
+        <div class="stat-row"><span class="stat-label">Heart</span><div class="stat-bar"><div class="stat-fill" data-width="100"></div></div><span class="stat-val">100</span></div>
+      </div>
+
+      <!-- TZIN -->
+      <div class="char-card char-card--tzin glass">
+        <div class="char-header">
+          <div class="char-avatar">&#9760;</div>
+          <div>
+            <h3 class="char-name">TZiN</h3>
+            <p class="char-alias">The Great Wizard &middot; Team Magic</p>
+          </div>
+        </div>
+        <p class="char-bio">A dark wizard from the 15th century. In the early years of the Sun Community, his body was captured by the Saints, but Tzin's soul escaped. His body rests on the island of Zinto which both exudes and is filled with magic. His evil mind transcends centuries.</p>
+        <div class="stat-row"><span class="stat-label">Mana</span><div class="stat-bar"><div class="stat-fill" data-width="98"></div></div><span class="stat-val">98</span></div>
+        <div class="stat-row"><span class="stat-label">Intellect</span><div class="stat-bar"><div class="stat-fill" data-width="94"></div></div><span class="stat-val">94</span></div>
+        <div class="stat-row"><span class="stat-label">Dark Arts</span><div class="stat-bar"><div class="stat-fill" data-width="96"></div></div><span class="stat-val">96</span></div>
+        <div class="stat-row"><span class="stat-label">Cunning</span><div class="stat-bar"><div class="stat-fill" data-width="90"></div></div><span class="stat-val">90</span></div>
+        <div class="stat-row"><span class="stat-label">Evil</span><div class="stat-bar"><div class="stat-fill" data-width="100"></div></div><span class="stat-val">100</span></div>
+      </div>
+    </div>
+
+    <p class="section-label reveal" style="margin-top:2em;">Friends &amp; Crew</p>
+    <div class="side-chars reveal">
+      <div class="side-char glass"><div class="side-char-icon">&#9733;</div><div class="side-char-name">Emily</div><div class="side-char-role">Athlete &amp; Friend</div></div>
+      <div class="side-char glass"><div class="side-char-icon">&#9733;</div><div class="side-char-name">Iza</div><div class="side-char-role">Athlete &amp; Friend</div></div>
+      <div class="side-char glass"><div class="side-char-icon">&#9733;</div><div class="side-char-name">Darlene</div><div class="side-char-role">Athlete &amp; Friend</div></div>
+      <div class="side-char glass"><div class="side-char-icon">&#9733;</div><div class="side-char-name">Ryan</div><div class="side-char-role">Athlete &amp; Friend</div></div>
+      <div class="side-char glass"><div class="side-char-icon">&#9733;</div><div class="side-char-name">Rose</div><div class="side-char-role">Best Student</div></div>
+      <div class="side-char glass"><div class="side-char-icon">&#9733;</div><div class="side-char-name">Maria</div><div class="side-char-role">Xin's Best Friend</div></div>
+      <div class="side-char glass"><div class="side-char-icon">&#9733;</div><div class="side-char-name">Charlie</div><div class="side-char-role">Medical Student</div></div>
+      <div class="side-char glass"><div class="side-char-icon">&#128218;</div><div class="side-char-name">Prof. Tyro</div><div class="side-char-role">Computer Lecturer &middot; Sun Community</div></div>
+      <div class="side-char glass"><div class="side-char-icon">&#128218;</div><div class="side-char-name">Prof. Williams</div><div class="side-char-role">Chemistry Teacher &middot; Sun Community</div></div>
+      <div class="side-char glass"><div class="side-char-icon">&#9876;</div><div class="side-char-name">Steyn</div><div class="side-char-role">Son of Vangr Dae Owner</div></div>
+      <div class="side-char glass"><div class="side-char-icon">&#9760;</div><div class="side-char-name">Broto</div><div class="side-char-role">Dark Wizard &middot; Team Magic</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     STORY SECTION
+     ═══════════════════════════════════════════ -->
+<section id="story">
+  <div class="section-inner">
+    <p class="section-label reveal">The Comics</p>
+    <h2 class="section-title reveal">The Story Begins</h2>
+    <div class="sep reveal"></div>
+
+    <div class="story-issues">
+      <div class="issue-card glass reveal">
+        <p class="issue-number">Issue #01 &mdash; Teaser</p>
+        <h3 class="issue-title">Birth of a Hero</h3>
+        <div class="issue-text">
+          <p>Finally, it is Sunday. All of his friends were free and had bought all the stuff he had told them to buy. They arrived at Xin's home at around 3:00pm and as they were arriving they started catching up about their college life.</p>
+          <br>
+          <p>"Yeah, it's great up there. I'm meeting a lot of girls"</p>
+          <p>"But I guess you're not having luck with any of them or you wouldn't be here, right?"</p>
+          <p>Everyone laughed. Those were Ryan and Charlie...</p>
+          <br>
+          <p>But one of them got past him and was going straight for Charlie. Xin turned around, reached out to try and catch it. He was far away from reaching it, but he could feel an <em class="text-cyan">energy surge</em> flowing through his body. He focused on the palm of his hand and he let out a scream... A wave of energy was expelled from his body and reached the insect, which fell down after a tiny explosion due to an evident short-circuit.</p>
+          <br>
+          <p>All of them looked at Xin, in absolute awe. But no one was as surprised as Xin himself.</p>
+        </div>
+        <div class="issue-cta">
+          <a href="mailto:xincyberbit@gmail.com?subject=CyberBit Issue 01" class="btn btn-outline">Read Complete Issue</a>
+        </div>
+      </div>
+
+      <div class="issue-card glass reveal">
+        <p class="issue-number">Issue #02 &mdash; Teaser</p>
+        <h3 class="issue-title">Rise of a Hero</h3>
+        <div class="issue-text">
+          <p>After the last incident, Xin woke up with a nightmare, feeling exhausted, nauseous, and with a headache the likes of which he hadn't felt since the last time he got drunk, 7 months before.</p>
+          <br>
+          <p>"Hey baby, got some sleep?" said his mother.</p>
+          <p>"Well, I heard you arriving at around 6:30am and its 10 o'clock right now so... Almost 30 hours! That must be a new record or something!"</p>
+          <br>
+          <p>The Professor's face popped through the door. His evident lack of sleep, plus his head full of gray and his unkempt gray beard would've made anyone think this half a century old man was approaching his 70th birthday.</p>
+          <br>
+          <p>Tyro knew what could happen after the incident at the lab, and that had him terrified. He knew that the teenagers weren't in danger, at least at the moment, but he knew they would <em class="text-magenta">never be the same again</em>. The professor decided his main objective would be to think of a way to control the explosion effects.</p>
+        </div>
+        <div class="issue-cta">
+          <a href="mailto:xincyberbit@gmail.com?subject=CyberBit Issue 02" class="btn btn-outline">Read Complete Issue</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     GAMES SECTION
+     ═══════════════════════════════════════════ -->
+<section id="games">
+  <div class="section-inner">
+    <p class="section-label reveal">Products</p>
+    <h2 class="section-title reveal">The Games</h2>
+    <div class="sep reveal"></div>
+
+    <div class="games-grid reveal">
+      <div class="game-card glass">
+        <span class="game-icon">&#128214;</span>
+        <h3 class="game-name">CyberBit Comics</h3>
+        <p class="game-desc">A story about our hero, how he and his friends will save the world. 20 issues of pure Science vs. Magic action.</p>
+        <div class="progress-label"><span>Issues Released</span><span>4 / 20</span></div>
+        <div class="progress-bar"><div class="progress-fill" data-width="20"></div></div>
+        <a href="#story" class="btn btn-cyber">Read Now</a>
+      </div>
+
+      <div class="game-card glass">
+        <span class="game-icon">&#127918;</span>
+        <h3 class="game-name">CyberBit 2D</h3>
+        <p class="game-desc">A 2D side-scroller game. The game levels are parallel to the comic issues. Battle through the story!</p>
+        <div class="progress-label"><span>Development</span><span>65%</span></div>
+        <div class="progress-bar"><div class="progress-fill" data-width="65"></div></div>
+        <a href="mailto:xincyberbit@gmail.com?subject=CyberBit 2D Game" class="btn btn-magic">Learn More</a>
+      </div>
+
+      <div class="game-card glass">
+        <span class="game-icon">&#127760;</span>
+        <h3 class="game-name">CyberBit 3D</h3>
+        <p class="game-desc">A 3D third-person game. Experience the world of CyberBit in full immersive 3D glory.</p>
+        <div class="progress-label"><span>Development</span><span>30%</span></div>
+        <div class="progress-bar"><div class="progress-fill" data-width="30"></div></div>
+        <a href="mailto:xincyberbit@gmail.com?subject=CyberBit 3D Beta" class="btn btn-outline">Sign Up for Beta</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     MUSIC SECTION
+     ═══════════════════════════════════════════ -->
+<section id="music">
+  <div class="section-inner">
+    <p class="section-label reveal">Soundtrack</p>
+    <h2 class="section-title reveal">CyberBit Music</h2>
+    <div class="sep reveal"></div>
+
+    <div class="music-player glass reveal">
+      <ul class="track-list">
+        <li class="track">
+          <span class="track-num">01</span>
+          <div class="track-icon">&#9654;</div>
+          <div class="track-info"><div class="track-name">Hero Theme Version 1</div><div class="track-artist">Brendon Hayes</div></div>
+          <div class="track-wave"><span style="height:8px"></span><span style="height:14px"></span><span style="height:6px"></span><span style="height:16px"></span><span style="height:10px"></span></div>
+        </li>
+        <li class="track">
+          <span class="track-num">02</span>
+          <div class="track-icon">&#9654;</div>
+          <div class="track-info"><div class="track-name">Hero Theme Music for 2D Game</div><div class="track-artist">Matt Hillis</div></div>
+          <div class="track-wave"><span style="height:12px"></span><span style="height:6px"></span><span style="height:18px"></span><span style="height:8px"></span><span style="height:14px"></span></div>
+        </li>
+        <li class="track">
+          <span class="track-num">03</span>
+          <div class="track-icon">&#9654;</div>
+          <div class="track-info"><div class="track-name">Hero Theme Version 2</div><div class="track-artist">Brendon Hayes</div></div>
+          <div class="track-wave"><span style="height:10px"></span><span style="height:16px"></span><span style="height:8px"></span><span style="height:12px"></span><span style="height:6px"></span></div>
+        </li>
+        <li class="track">
+          <span class="track-num">04</span>
+          <div class="track-icon">&#9654;</div>
+          <div class="track-info"><div class="track-name">Hero Theme Final Version</div><div class="track-artist">Brendon Hayes</div></div>
+          <div class="track-wave"><span style="height:14px"></span><span style="height:8px"></span><span style="height:12px"></span><span style="height:18px"></span><span style="height:10px"></span></div>
+        </li>
+        <li class="track">
+          <span class="track-num">05</span>
+          <div class="track-icon">&#9654;</div>
+          <div class="track-info"><div class="track-name">Hero Theme Updated (Violin &amp; Guitar)</div><div class="track-artist">Brendon Hayes</div></div>
+          <div class="track-wave"><span style="height:6px"></span><span style="height:12px"></span><span style="height:16px"></span><span style="height:8px"></span><span style="height:14px"></span></div>
+        </li>
+        <li class="track">
+          <span class="track-num">06</span>
+          <div class="track-icon">&#9654;</div>
+          <div class="track-info"><div class="track-name">Villain Theme Version 1</div><div class="track-artist">Brendon Hayes</div></div>
+          <div class="track-wave"><span style="height:16px"></span><span style="height:10px"></span><span style="height:14px"></span><span style="height:6px"></span><span style="height:12px"></span></div>
+        </li>
+        <li class="track">
+          <span class="track-num">07</span>
+          <div class="track-icon">&#9654;</div>
+          <div class="track-info"><div class="track-name">Hero Vs Villain Theme</div><div class="track-artist">Brendon Hayes</div></div>
+          <div class="track-wave"><span style="height:18px"></span><span style="height:12px"></span><span style="height:8px"></span><span style="height:16px"></span><span style="height:10px"></span></div>
+        </li>
+        <li class="track">
+          <span class="track-num">08</span>
+          <div class="track-icon">&#9654;</div>
+          <div class="track-info"><div class="track-name">MiniGame Theme</div><div class="track-artist">Brendon Hayes</div></div>
+          <div class="track-wave"><span style="height:8px"></span><span style="height:18px"></span><span style="height:10px"></span><span style="height:14px"></span><span style="height:8px"></span></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     GALLERY SECTION
+     ═══════════════════════════════════════════ -->
+<section id="gallery">
+  <div class="section-inner">
+    <p class="section-label reveal">Concept Art</p>
+    <h2 class="section-title reveal">Gallery</h2>
+    <div class="sep reveal"></div>
+
+    <div class="gallery-grid reveal">
+      <div class="gallery-item gallery-item--featured" onclick="openLightbox(this)">
+        <img src="cyberbit.png" alt="CyberBit: Heart of the Storm — Official Cover Art" loading="lazy">
+        <div class="gallery-overlay"><span>Official Cover Art</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this)">
+        <img src="https://web.archive.org/web/20170301012548if_/http://cyberbitgame.com/wp-content/uploads/2014/08/nature.jpg" alt="CyberBit Environment Art" loading="lazy">
+        <div class="gallery-overlay"><span>Environment Art</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this)">
+        <img src="https://web.archive.org/web/20170302114623if_/http://cyberbitgame.com/wp-content/uploads/2014/08/fireman1.jpg" alt="CyberBit Character Art" loading="lazy">
+        <div class="gallery-overlay"><span>Character Concept</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this)">
+        <img src="https://web.archive.org/web/20170301105939if_/http://cyberbitgame.com/wp-content/uploads/2014/08/photo-21.jpg" alt="CyberBit Concept Art" loading="lazy">
+        <div class="gallery-overlay"><span>Concept Art</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this)">
+        <img src="https://web.archive.org/web/20170301012543if_/http://cyberbitgame.com/wp-content/uploads/2014/10/photo-3.jpg" alt="CyberBit Scene" loading="lazy">
+        <div class="gallery-overlay"><span>Scene Design</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this)">
+        <img src="https://web.archive.org/web/20170301233208if_/http://cyberbitgame.com/wp-content/uploads/2014/08/cb1.jpg" alt="CyberBit Hero" loading="lazy">
+        <div class="gallery-overlay"><span>CyberBit Hero</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this)">
+        <img src="https://web.archive.org/web/20170301011701if_/http://cyberbitgame.com/wp-content/uploads/2014/10/art-1.jpg" alt="CyberBit Art" loading="lazy">
+        <div class="gallery-overlay"><span>Original Art</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this)">
+        <img src="https://web.archive.org/web/20170301172153if_/http://cyberbitgame.com/wp-content/uploads/2015/07/Screenshot-from-2015-07-14-193859.png" alt="CyberBit 2D Game Screenshot" loading="lazy">
+        <div class="gallery-overlay"><span>2D Game Screenshot</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this)">
+        <img src="https://web.archive.org/web/20170301105917if_/http://cyberbitgame.com/wp-content/uploads/2015/07/Screenshot-from-2015-07-14-193924.png" alt="CyberBit 2D Game Screenshot" loading="lazy">
+        <div class="gallery-overlay"><span>2D Game Screenshot</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     TEAM SECTION
+     ═══════════════════════════════════════════ -->
+<section id="team">
+  <div class="section-inner">
+    <p class="section-label reveal">The Crew</p>
+    <h2 class="section-title reveal">Meet the Team</h2>
+    <div class="sep reveal"></div>
+
+    <div class="team-grid reveal">
+      <div class="team-card glass">
+        <div class="team-avatar">&#128187;</div>
+        <h3 class="team-name">Brandon Burton</h3>
+        <p class="team-role">Developer</p>
+      </div>
+      <div class="team-card glass">
+        <div class="team-avatar">&#127925;</div>
+        <h3 class="team-name">Brendon Hayes</h3>
+        <p class="team-role">Music Composer &amp; Sound Designer</p>
+      </div>
+      <div class="team-card glass">
+        <div class="team-avatar">&#9889;</div>
+        <h3 class="team-name">CyberBit</h3>
+        <p class="team-role">Maintainer of the Project</p>
+      </div>
+      <div class="team-card glass">
+        <div class="team-avatar">&#128187;</div>
+        <h3 class="team-name">Emanuil Glavchev</h3>
+        <p class="team-role">Developer</p>
+      </div>
+      <div class="team-card glass">
+        <div class="team-avatar">&#128188;</div>
+        <h3 class="team-name">Iza</h3>
+        <p class="team-role">Product Officer</p>
+      </div>
+      <div class="team-card glass">
+        <div class="team-avatar">&#128187;</div>
+        <h3 class="team-name">Jessica Hart</h3>
+        <p class="team-role">Junior Developer</p>
+      </div>
+      <div class="team-card glass">
+        <div class="team-avatar">&#10024;</div>
+        <h3 class="team-name">Khushi Mathur</h3>
+        <p class="team-role">Team Member</p>
+      </div>
+      <div class="team-card glass">
+        <div class="team-avatar">&#127925;</div>
+        <h3 class="team-name">Matt Hillis</h3>
+        <p class="team-role">Music Composer</p>
+      </div>
+      <div class="team-card glass">
+        <div class="team-avatar">&#128176;</div>
+        <h3 class="team-name">Orlando Pivi</h3>
+        <p class="team-role">Banker</p>
+      </div>
+      <div class="team-card glass">
+        <div class="team-avatar">&#9997;</div>
+        <h3 class="team-name">Santiago Pelayo</h3>
+        <p class="team-role">Story &amp; Concept Writer</p>
+      </div>
+      <div class="team-card glass">
+        <div class="team-avatar">&#128187;</div>
+        <h3 class="team-name">Sarvsav Sharma</h3>
+        <p class="team-role">Developer</p>
+      </div>
+      <div class="team-card glass">
+        <div class="team-avatar">&#127912;</div>
+        <h3 class="team-name">Thunar</h3>
+        <p class="team-role">Lead Artist &amp; Animator</p>
+      </div>
+      <div class="team-card glass">
+        <div class="team-avatar">&#127912;</div>
+        <h3 class="team-name">Zafirka Stoyanova</h3>
+        <p class="team-role">Lead Artist &amp; Animator</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CONNECT / FOOTER
+     ═══════════════════════════════════════════ -->
+<section id="connect">
+  <div class="section-inner">
+    <div class="connect-inner reveal">
+      <p class="section-label">Transmission</p>
+      <h2 class="connect-title">Join the Resistance</h2>
+      <p class="connect-sub">Subscribe for updates on new comic issues, game releases, and behind-the-scenes content.</p>
+
+      <form class="newsletter-form" onsubmit="event.preventDefault(); showAchievement('RESISTANCE JOINED — Welcome, soldier.');">
+        <input type="email" class="newsletter-input" placeholder="Enter your email frequency..." required>
+        <button type="submit" class="btn btn-cyber">Transmit</button>
+      </form>
+
+      <div class="social-links">
+        <a href="#" class="social-link" title="Discord" aria-label="Discord">&#128172;</a>
+        <a href="#" class="social-link" title="Twitter / X" aria-label="Twitter">&#120143;</a>
+        <a href="#" class="social-link" title="Instagram" aria-label="Instagram">&#128247;</a>
+        <a href="#" class="social-link" title="YouTube" aria-label="YouTube">&#9654;</a>
+      </div>
+
+      <p class="footer-email">Write to us: <a href="mailto:xincyberbit@gmail.com">xincyberbit@gmail.com</a></p>
+      <p class="footer-copy">&copy; CyberBit Team Crew. Science vs. Magic. The battle continues.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ═══════════════════════════════════════════
+   SPLASH SCREEN — CHOOSE YOUR PATH
+   ═══════════════════════════════════════════ */
+function choosePath(path) {
+  if (path === 'mind') {
+    document.body.classList.add('theme-magic');
+  }
+  document.getElementById('splash').classList.add('hidden');
+  document.getElementById('nav').classList.add('visible');
+  document.getElementById('xp-level').classList.add('visible');
+  initParticles();
+  setTimeout(function() { showAchievement('PATH CHOSEN — ' + (path === 'heart' ? 'The Heart guides you.' : 'The Mind calculates.')); }, 800);
+}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════ */
+function toggleNav() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+
+// Close mobile nav on link click
+document.querySelectorAll('.nav-links a').forEach(function(a) {
+  a.addEventListener('click', function() {
+    document.getElementById('nav-links').classList.remove('open');
+  });
+});
+
+// Active nav link on scroll
+var sections = document.querySelectorAll('section[id]');
+var navLinks = document.querySelectorAll('.nav-links a');
+
+function updateActiveNav() {
+  var scrollY = window.scrollY + 120;
+  sections.forEach(function(section) {
+    var top = section.offsetTop;
+    var height = section.offsetHeight;
+    var id = section.getAttribute('id');
+    if (scrollY >= top && scrollY < top + height) {
+      navLinks.forEach(function(link) {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + id) {
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════
+   XP SYSTEM & ACHIEVEMENTS
+   ═══════════════════════════════════════════ */
+var xp = 0;
+var maxXP = 1000;
+var level = 1;
+var visitedSections = {};
+
+function addXP(amount) {
+  xp = Math.min(xp + amount, maxXP);
+  var percent = (xp / maxXP) * 100;
+  document.getElementById('xp-fill').style.width = percent + '%';
+  var newLevel = Math.floor(xp / 120) + 1;
+  if (newLevel > level) {
+    level = newLevel;
+    showAchievement('LEVEL UP — You are now Level ' + level + '!');
+  }
+  document.getElementById('xp-level').textContent = 'LVL ' + level + ' \u00B7 ' + xp + ' XP';
+}
+
+var achievementQueue = [];
+var achievementActive = false;
+
+function showAchievement(text) {
+  achievementQueue.push(text);
+  if (!achievementActive) processAchievementQueue();
+}
+
+function processAchievementQueue() {
+  if (achievementQueue.length === 0) { achievementActive = false; return; }
+  achievementActive = true;
+  var text = achievementQueue.shift();
+  var popup = document.getElementById('achievement-popup');
+  popup.textContent = '\u2605 ' + text;
+  popup.classList.add('show');
+  setTimeout(function() {
+    popup.classList.remove('show');
+    setTimeout(processAchievementQueue, 400);
+  }, 2500);
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL & INTERSECTION OBSERVER
+   ═══════════════════════════════════════════ */
+var revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+
+      // Animate stat bars
+      entry.target.querySelectorAll('.stat-fill').forEach(function(bar) {
+        var w = bar.getAttribute('data-width');
+        if (w) bar.style.width = w + '%';
+      });
+
+      // Animate progress bars
+      entry.target.querySelectorAll('.progress-fill').forEach(function(bar) {
+        var w = bar.getAttribute('data-width');
+        if (w) bar.style.width = w + '%';
+      });
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(function(el) {
+  revealObserver.observe(el);
+});
+
+// Section visit tracking for XP
+var sectionObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      var id = entry.target.getAttribute('id');
+      if (id && !visitedSections[id]) {
+        visitedSections[id] = true;
+        addXP(80);
+        var names = {
+          hero: 'HOME BASE',
+          lore: 'LORE KEEPER',
+          characters: 'ROSTER REVEALED',
+          story: 'STORY UNLOCKED',
+          games: 'GAMER DETECTED',
+          music: 'SOUNDTRACK FOUND',
+          gallery: 'ART COLLECTOR',
+          team: 'CREW DISCOVERED',
+          connect: 'SIGNAL RECEIVED'
+        };
+        if (names[id]) {
+          showAchievement(names[id] + ' — Section explored!');
+        }
+      }
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(function(s) { sectionObserver.observe(s); });
+
+/* ═══════════════════════════════════════════
+   SCROLL HANDLERS
+   ═══════════════════════════════════════════ */
+window.addEventListener('scroll', function() {
+  updateActiveNav();
+
+  // Update XP bar based on scroll position
+  var scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+  var scrollXP = Math.floor(scrollPercent * 200);
+  if (scrollXP > 0 && !window._scrollXPAdded) {
+    // Only add scroll XP incrementally
+  }
+}, { passive: true });
+
+/* ═══════════════════════════════════════════
+   DUALITY TOGGLE
+   ═══════════════════════════════════════════ */
+var dualityState = 'heart';
+
+function toggleDuality() {
+  var track = document.getElementById('duality-toggle');
+  var text = document.getElementById('duality-text');
+  track.classList.toggle('active');
+
+  if (dualityState === 'heart') {
+    dualityState = 'mind';
+    text.className = 'duality-text mind-mode reveal visible';
+    text.innerHTML = '<em>Tzin</em> means Mind. In our daily life, we face hard situations where we must listen to our mind to take decisions. Mind is considered as <em>calculating, strategic, and dangerous</em> &mdash; and so the arch-enemy is named Tzin. He represents cold logic without compassion, intelligence weaponized, the dark arts of a wizard who transcends centuries.';
+  } else {
+    dualityState = 'heart';
+    text.className = 'duality-text heart-mode reveal visible';
+    text.innerHTML = '<em>Xin</em> means Heart. In our daily life, we face hard situations where we must listen to our heart to take decisions. Heart is considered as <em>pure</em> &mdash; and so our protagonist is named Xin. He represents the courage of pure decisions, the strength of compassion, the power of science wielded with a good soul.';
+  }
+}
+
+/* ═══════════════════════════════════════════
+   LIGHTBOX
+   ═══════════════════════════════════════════ */
+function openLightbox(el) {
+  var img = el.querySelector('img');
+  if (!img) return;
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+/* ═══════════════════════════════════════════
+   PARTICLE SYSTEM (Canvas)
+   ═══════════════════════════════════════════ */
+function initParticles() {
+  var canvas = document.getElementById('particle-canvas');
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var particleCount = Math.min(90, Math.floor(window.innerWidth / 18));
+  var lightningTimer = 0;
+  var lightningBolts = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function Particle() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = (Math.random() - 0.5) * 0.3;
+    this.size = Math.random() * 2 + 0.5;
+    this.isMagic = Math.random() > 0.6;
+    this.color = this.isMagic ? 'rgba(138, 43, 226,' : 'rgba(0, 240, 255,';
+    this.alpha = Math.random() * 0.3 + 0.05;
+    this.pulseSpeed = Math.random() * 0.02 + 0.005;
+    this.pulsePhase = Math.random() * Math.PI * 2;
+  }
+
+  for (var i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
+
+  // Generate a mini lightning bolt between two points
+  function generateBolt(x1, y1, x2, y2) {
+    var points = [{x: x1, y: y1}];
+    var dx = x2 - x1;
+    var dy = y2 - y1;
+    var segments = 5;
+    for (var i = 1; i < segments; i++) {
+      var t = i / segments;
+      points.push({
+        x: x1 + dx * t + (Math.random() - 0.5) * 20,
+        y: y1 + dy * t + (Math.random() - 0.5) * 20
+      });
+    }
+    points.push({x: x2, y: y2});
+    return { points: points, life: 1, maxLife: 1 };
+  }
+
+  var time = 0;
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    time += 0.016;
+
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+
+      // Pulse alpha
+      var pulse = Math.sin(time * p.pulseSpeed * 60 + p.pulsePhase) * 0.5 + 0.5;
+      var alpha = p.alpha * (0.6 + pulse * 0.4);
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * (0.8 + pulse * 0.4), 0, Math.PI * 2);
+      ctx.fillStyle = p.color + alpha + ')';
+      ctx.fill();
+
+      // Glow for some particles
+      if (p.size > 1.5) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + (alpha * 0.15) + ')';
+        ctx.fill();
+      }
+
+      // Draw connections with electric feel
+      for (var j = i + 1; j < particles.length; j++) {
+        var p2 = particles[j];
+        var dx = p.x - p2.x;
+        var dy = p.y - p2.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 130) {
+          var lineAlpha = 0.04 * (1 - dist / 130);
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          var lineColor = (p.isMagic || p2.isMagic) ? 'rgba(138, 43, 226,' : 'rgba(0, 240, 255,';
+          ctx.strokeStyle = lineColor + lineAlpha + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+
+          // Occasionally spawn electric bolt between close particles
+          if (dist < 60 && Math.random() < 0.001) {
+            lightningBolts.push(generateBolt(p.x, p.y, p2.x, p2.y));
+          }
+        }
+      }
+    }
+
+    // Draw lightning bolts
+    for (var b = lightningBolts.length - 1; b >= 0; b--) {
+      var bolt = lightningBolts[b];
+      bolt.life -= 0.05;
+      if (bolt.life <= 0) {
+        lightningBolts.splice(b, 1);
+        continue;
+      }
+      ctx.beginPath();
+      ctx.moveTo(bolt.points[0].x, bolt.points[0].y);
+      for (var k = 1; k < bolt.points.length; k++) {
+        ctx.lineTo(bolt.points[k].x, bolt.points[k].y);
+      }
+      ctx.strokeStyle = 'rgba(0, 240, 255,' + (bolt.life * 0.6) + ')';
+      ctx.lineWidth = bolt.life * 2;
+      ctx.stroke();
+      // Glow
+      ctx.strokeStyle = 'rgba(0, 240, 255,' + (bolt.life * 0.15) + ')';
+      ctx.lineWidth = bolt.life * 6;
+      ctx.stroke();
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+</script>
+</body>
+</html>
